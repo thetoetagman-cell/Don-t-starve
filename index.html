@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Don't Starve — Survival Compendium</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Bitter:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5efe6;
+  --bg-card: #ece4d4;
+  --bg-dark: #2c2419;
+  --bg-section: #faf6ef;
+  --text: #2c2419;
+  --text-mid: #4a3f30;
+  --text-light: #7a6d58;
+  --accent: #b84c00;
+  --accent-hover: #d45a00;
+  --red: #c0392b;
+  --green: #27864a;
+  --blue: #2874a6;
+  --purple: #7d3c98;
+  --gold: #b8860b;
+  --border: #c9bda8;
+  --border-light: #ddd4c4;
+  --nav-bg: #2c2419;
+  --nav-text: #f5efe6;
+  --nav-active: #e8933a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:18px; }
+body {
+  font-family:'Bitter', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height:100vh;
+  -webkit-text-size-adjust:100%;
+}
+
+/* === HEADER === */
+.header {
+  text-align:center;
+  padding: 1.8rem 1rem 1.2rem;
+  background: var(--bg-dark);
+  color: var(--nav-text);
+  position: relative;
+  overflow: hidden;
+}
+.header-bg-art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  filter: saturate(0.5);
+  transition: opacity 0.5s;
+}
+.header-bg-art.loaded { opacity: 0.22; }
+.header h1 {
+  font-family:'Creepster', cursive;
+  font-size: 2.8rem;
+  color: #f0c060;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
+}
+.header .subtitle {
+  font-family:'Courier Prime', monospace;
+  font-size:0.85rem;
+  color: #b8a88a;
+  margin-top:0.3rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  position: relative; z-index: 1;
+}
+.header .tagline {
+  font-style:italic;
+  color: #e8933a;
+  font-size:1rem;
+  margin-top:0.4rem;
+  position: relative; z-index: 1;
+}
+
+/* === CATEGORY NAV === */
+.cat-nav {
+  position:sticky; top:0; z-index:100;
+  display:flex;
+  overflow-x:auto;
+  background: var(--nav-bg);
+  border-bottom: 3px solid var(--nav-active);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width:none;
+}
+.cat-nav::-webkit-scrollbar { display:none; }
+.cat-btn {
+  flex:0 0 auto;
+  padding: 0.75rem 0.9rem;
+  font-family:'Courier Prime', monospace;
+  font-size:0.82rem;
+  font-weight:700;
+  color: #b8a88a;
+  background:none;
+  border:none;
+  cursor:pointer;
+  white-space:nowrap;
+  letter-spacing:0.04em;
+  transition: color 0.2s, background 0.2s;
+  border-bottom: 3px solid transparent;
+  text-transform:uppercase;
+  margin-bottom:-3px;
+}
+.cat-btn:hover { color: #fff; }
+.cat-btn.active {
+  color: #fff;
+  border-bottom-color: var(--nav-active);
+  background: rgba(232,147,58,0.15);
+}
+
+/* === SEARCH === */
+.search-wrap {
+  padding: 0.8rem 1rem;
+  background: var(--bg-card);
+  border-bottom: 2px solid var(--border);
+}
+.search-box { position:relative; }
+.search-input {
+  width:100%;
+  padding: 0.75rem 1rem 0.75rem 2.6rem;
+  font-family:'Bitter', serif;
+  font-size:1.1rem;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  outline:none;
+}
+.search-input::placeholder { color: var(--text-light); }
+.search-input:focus { border-color: var(--accent); }
+.search-icon {
+  position:absolute;
+  left:0.9rem; top:50%; transform:translateY(-50%);
+  color: var(--text-light); font-size:1.1rem;
+  pointer-events:none;
+}
+.result-count {
+  font-family:'Courier Prime', monospace;
+  font-size:0.8rem;
+  color: var(--text-light);
+  padding: 0.3rem 0.2rem 0;
+  text-align:right;
+}
+
+/* === SECTIONS === */
+.section { display:none; padding-bottom: 3rem; }
+.section.active { display:block; }
+
+/* === SECTION INTRO WITH BANNER === */
+.section-intro {
+  padding: 0;
+  background: var(--bg-section);
+  border-bottom: 2px solid var(--border);
+  overflow: hidden;
+}
+.section-banner {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  background: var(--bg-dark);
+}
+.section-banner-placeholder {
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #4a3520 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+.section-intro-text {
+  padding: 1.2rem 1.2rem 1rem;
+}
+.section-intro h2 {
+  font-family:'Creepster', cursive;
+  font-size:2rem;
+  color: var(--accent);
+  letter-spacing:0.03em;
+}
+.section-intro p {
+  color: var(--text-mid);
+  font-size:1.05rem;
+  margin-top:0.4rem;
+  line-height:1.5;
+}
+
+/* === Q&A ITEMS === */
+.qa-group-label {
+  font-family:'Courier Prime', monospace;
+  font-size:0.82rem;
+  font-weight:700;
+  color: var(--accent);
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  padding: 1.2rem 1.2rem 0.4rem;
+  border-top: 2px solid var(--border-light);
+  background: var(--bg-card);
+}
+.qa-item {
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-section);
+}
+.qa-q {
+  display:flex;
+  align-items:flex-start;
+  padding: 1rem 1.2rem;
+  cursor:pointer;
+  gap:0.7rem;
+  -webkit-tap-highlight-color: transparent;
+}
+.qa-q:active { background: rgba(184,76,0,0.06); }
+.qa-q .marker {
+  flex:0 0 auto;
+  width:1.6rem; height:1.6rem;
+  background: var(--accent);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; font-weight:700;
+  color: #fff;
+  transition: transform 0.2s;
+  margin-top:0.15rem;
+}
+.qa-item.open .qa-q .marker {
+  background: var(--accent-hover);
+  transform: rotate(90deg);
+}
+.qa-q .q-text {
+  font-weight:700;
+  font-size:1.15rem;
+  line-height:1.4;
+  color: var(--text);
+}
+.qa-a {
+  display:none;
+  padding: 0.2rem 1.2rem 1.4rem 3.5rem;
+  font-size:1.05rem;
+  line-height:1.65;
+  color: var(--text-mid);
+  background: #fff;
+  border-top: 1px solid var(--border-light);
+}
+.qa-item.open .qa-a { display:block; }
+.qa-a p { margin-bottom:0.7rem; }
+.qa-a strong { color: var(--text); }
+.qa-a em { color: var(--accent); font-style:normal; font-weight:600; }
+
+/* === CHARACTER PORTRAIT LAYOUT === */
+.char-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+.char-portrait-wrap {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-dark);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.char-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  image-rendering: -webkit-optimize-contrast;
+}
+.char-portrait-fallback {
+  font-size: 2.2rem;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.char-portrait.loaded + .char-portrait-fallback { display: none; }
+.char-name-block { flex: 1; }
+.char-name-block .char-name {
+  font-family: 'Creepster', cursive;
+  font-size: 1.3rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+.char-name-block .char-title {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* === DATA TABLES === */
+.data-table {
+  width:100%; border-collapse:collapse; margin: 0.8rem 0; font-size:0.92rem;
+}
+.data-table th {
+  font-family:'Courier Prime', monospace;
+  text-align:left; padding: 0.5rem 0.5rem;
+  color: var(--accent); border-bottom: 2px solid var(--border);
+  font-size:0.78rem; text-transform:uppercase;
+  letter-spacing:0.06em; background: var(--bg-card);
+}
+.data-table td {
+  padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border-light);
+  vertical-align:top; color: var(--text); font-size:0.95rem;
+}
+.data-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+
+/* === ITEM ICON === */
+.item-icon {
+  width: 28px; height: 28px;
+  vertical-align: middle;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  margin-right: 4px;
+  border-radius: 3px;
+  background: var(--bg-dark);
+  display: inline-block;
+}
+.item-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Stat pills */
+.stat { display:inline-block; padding:0.15rem 0.5rem; border-radius:4px; font-family:'Courier Prime',monospace; font-size:0.85rem; font-weight:700; margin:0.1rem 0.1rem; }
+.stat-hp { background:#fde8e4; color:#c0392b; }
+.stat-hun { background:#fef5e0; color:#b8860b; }
+.stat-san { background:#e4f0f8; color:#2874a6; }
+.stat-dmg { background:#fdecd8; color:#b84c00; }
+
+/* Tier badges */
+.tier { display:inline-block; padding:0.1rem 0.5rem; border-radius:4px; font-family:'Courier Prime',monospace; font-size:0.82rem; font-weight:700; }
+.tier-s { background:#fef3cd; color:#b8860b; }
+.tier-a { background:#fde4cc; color:#b84c00; }
+.tier-b { background:#d4edda; color:#27864a; }
+.tier-c { background:#d6eaf8; color:#2874a6; }
+.tier-f { background:#f8d7da; color:#c0392b; }
+
+/* Season colors */
+.season-autumn td:first-child { border-left: 4px solid #d4752a; }
+.season-winter td:first-child { border-left: 4px solid #2874a6; }
+.season-spring td:first-child { border-left: 4px solid #27864a; }
+.season-summer td:first-child { border-left: 4px solid #c0392b; }
+
+/* Callouts */
+.callout { margin: 0.7rem 0; padding: 0.8rem 1rem; border-radius: 6px; font-size: 0.95rem; line-height:1.5; }
+.callout-warn { background: #fde8e4; border-left: 4px solid var(--red); color: #6b1d13; }
+.callout-tip { background: #d4edda; border-left: 4px solid var(--green); color: #1a5632; }
+.callout-info { background: #d6eaf8; border-left: 4px solid var(--blue); color: #1b4f72; }
+.callout-magic { background: #f0e0f8; border-left: 4px solid var(--purple); color: #4a235a; }
+
+/* Footer */
+.footer {
+  text-align:center; padding: 2rem 1rem;
+  font-size:0.85rem; color: var(--text-light);
+  border-top: 2px solid var(--border); background: var(--bg-card);
+}
+
+/* Art loading indicator */
+.art-loading {
+  opacity: 0.4;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-align: center;
+  padding: 0.4rem;
+}
+
+@media(max-width:420px) {
+  html { font-size:17px; }
+  .header h1 { font-size:2.4rem; }
+  .qa-a { padding-left: 1.2rem; }
+  .char-portrait-wrap { width: 60px; height: 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-bg-art" id="headerBgArt"></div>
+  <h1>Don't Starve</h1>
+  <div class="subtitle">Pocket Edition — Survival Compendium</div>
+  <div class="tagline">"Say pal, you don't look so good..."</div>
+</div>
+
+<nav class="cat-nav" id="catNav">
+  <button class="cat-btn active" data-cat="characters">Characters</button>
+  <button class="cat-btn" data-cat="seasons">Seasons</button>
+  <button class="cat-btn" data-cat="cooking">Cooking</button>
+  <button class="cat-btn" data-cat="crafting">Crafting</button>
+  <button class="cat-btn" data-cat="creatures">Creatures</button>
+  <button class="cat-btn" data-cat="survival">Survival</button>
+  <button class="cat-btn" data-cat="biomes">Biomes</button>
+  <button class="cat-btn" data-cat="strategy">Strategy</button>
+</nav>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search all questions...">
+  </div>
+  <div class="result-count" id="resultCount"></div>
+</div>
+
+<!-- ===================== CHARACTERS ===================== -->
+<div class="section active" id="sec-characters">
+  <div class="section-intro">
+    <div id="banner-characters" class="section-banner-placeholder">👤</div>
+    <div class="section-intro-text">
+      <h2>👤 Characters</h2>
+      <p>Pocket Edition + Reign of Giants features 12 unlockable characters, each with unique stats, perks, and playstyles.</p>
+    </div>
+  </div>
+
+  <div class="qa-group-label">Character Stats & Overview</div>
+
+  <div class="qa-item" data-tags="characters stats overview wilson willow wolfgang wendy wx wickerbottom woodie wes maxwell wigfrid webber">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What are all the characters and their base stats?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Character</th><th>HP</th><th>Hunger</th><th>Sanity</th><th>Unlock</th></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wilson" alt="Wilson"> <strong>Wilson</strong></span></td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">200</span></td><td>Start</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Willow" alt="Willow"> <strong>Willow</strong></span></td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">120</span></td><td>160 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wolfgang" alt="Wolfgang"> <strong>Wolfgang</strong></span></td><td><span class="stat stat-hp">150–300</span></td><td><span class="stat stat-hun">300</span></td><td><span class="stat stat-san">200</span></td><td>320 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wendy" alt="Wendy"> <strong>Wendy</strong></span></td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">200</span></td><td>640 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="WX-78" alt="WX-78"> <strong>WX-78</strong></span></td><td><span class="stat stat-hp">150→400</span></td><td><span class="stat stat-hun">150→200</span></td><td><span class="stat stat-san">150→300</span></td><td>960 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wickerbottom" alt="Wickerbottom"> <strong>Wickerbottom</strong></span></td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">250</span></td><td>1280 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Woodie" alt="Woodie"> <strong>Woodie</strong></span></td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">200</span></td><td>1600 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wes" alt="Wes"> <strong>Wes</strong></span></td><td><span class="stat stat-hp">113</span></td><td><span class="stat stat-hun">113</span></td><td><span class="stat stat-san">150</span></td><td>Find in Adventure</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Maxwell" alt="Maxwell"> <strong>Maxwell</strong></span></td><td><span class="stat stat-hp">75</span></td><td><span class="stat stat-hun">150</span></td><td><span class="stat stat-san">200</span></td><td>Beat Adventure</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Wigfrid" alt="Wigfrid"> <strong>Wigfrid</strong></span></td><td><span class="stat stat-hp">200</span></td><td><span class="stat stat-hun">120</span></td><td><span class="stat stat-san">120</span></td><td>RoG — 1920 XP</td></tr>
+        <tr><td><span class="item-icon-wrap"><img class="item-icon char-table-icon" data-char="Webber" alt="Webber"> <strong>Webber</strong></span></td><td><span class="stat stat-hp">175</span></td><td><span class="stat stat-hun">175</span></td><td><span class="stat stat-san">100</span></td><td>RoG — Find skull</td></tr>
+      </table>
+      <div class="callout callout-info">XP is earned at death or when escaping to a new world. Roughly 1 survived day ≈ 20 XP.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wilson beginner beard insulation meat effigy">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What makes Wilson good? Is he just a default?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wilson" alt="Wilson"><div class="char-portrait-fallback">🎩</div></div>
+        <div class="char-name-block"><div class="char-name">Wilson</div><div class="char-title">The Gentleman Scientist</div></div>
+      </div>
+      <p>Wilson has balanced stats and one perk — <strong>growing a magnificent beard</strong>. It grows in three stages: Short (day 4), Long (day 8), Magnificent (day 16). The beard provides increasing <em>insulation from freezing</em>, equivalent to warm headgear at full growth.</p>
+      <p>Shaving yields <strong>Beard Hair</strong> for crafting <em>Meat Effigies</em> — resurrection items that bring you back on death. This makes Wilson one of the safest characters.</p>
+      <div class="callout callout-tip">Save the beard for Winter, shave on Day 1 of Spring. The insulation alone delays freezing significantly.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters willow fire lighter sanity bernie burn base">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does Willow's fire mechanic work?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Willow" alt="Willow"><div class="char-portrait-fallback">🔥</div></div>
+        <div class="char-name-block"><div class="char-name">Willow</div><div class="char-title">The Firestarter</div></div>
+      </div>
+      <p>Willow spawns with a unique <strong>Lighter</strong> (infinite durability, dimmer than a torch). She is <em>immune to fire damage</em> and regains Sanity near fires (+10/min near large fires).</p>
+      <p>The danger: <strong>when Sanity drops to 60 or below, she randomly ignites fires at her feet</strong>. She won't burn — but your base will.</p>
+      <div class="callout callout-warn">Keep Willow's Sanity above 60 near your base at all times. Retreat to a campfire if it's dropping — fire proximity restores her Sanity.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wolfgang strongman mighty wimpy hunger damage forms">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How do Wolfgang's hunger-strength forms work?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wolfgang" alt="Wolfgang"><div class="char-portrait-fallback">💪</div></div>
+        <div class="char-name-block"><div class="char-name">Wolfgang</div><div class="char-title">The Strongman</div></div>
+      </div>
+      <table class="data-table">
+        <tr><th>Form</th><th>Hunger</th><th>Health</th><th>Damage</th><th>Speed</th></tr>
+        <tr><td><strong>Wimpy</strong></td><td>Below 100</td><td><span class="stat stat-hp">150</span></td><td><span class="stat stat-dmg">0.5×</span></td><td>Normal</td></tr>
+        <tr><td><strong>Normal</strong></td><td>100–220</td><td><span class="stat stat-hp">200</span></td><td><span class="stat stat-dmg">1×</span></td><td>Normal</td></tr>
+        <tr><td><strong>Mighty</strong></td><td>Above 220</td><td><span class="stat stat-hp">300</span></td><td><span class="stat stat-dmg">2×</span></td><td>+25%</td></tr>
+      </table>
+      <div class="callout callout-tip">Stockpile Meatballs before any boss fight. Enter combat at full hunger for Mighty form's devastating 2× damage.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wendy abigail ghost twin sister combat weak">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does Wendy summon Abigail?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wendy" alt="Wendy"><div class="char-portrait-fallback">👻</div></div>
+        <div class="char-name-block"><div class="char-name">Wendy</div><div class="char-title">The Bereaved</div></div>
+      </div>
+      <p>Wendy spawns with <strong>Abigail's Flower</strong>. It blooms over 2–4 days. Place it on the ground — when a creature <em>dies near it</em>, Abigail's ghost appears. She deals AoE damage, excelling against swarms of Spiders, Hounds, and Bats.</p>
+      <p>Wendy hits for <em>25% less damage</em> than normal, so she depends on Abigail. She also only loses <em>0.75× Sanity</em> in darkness and near monsters.</p>
+      <div class="callout callout-tip">Abigail shreds Spider Dens. Lead Wendy to a den at dusk, let Spiders emerge, Abigail handles them, you collect drops.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wx-78 robot gears upgrades lightning rain overcharge">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does WX-78 upgrade with Gears?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="WX-78" alt="WX-78"><div class="char-portrait-fallback">🤖</div></div>
+        <div class="char-name-block"><div class="char-name">WX-78</div><div class="char-title">Soulless Automaton</div></div>
+      </div>
+      <p>WX-78 starts at 150/150/150. Each <strong>Gear eaten</strong> adds roughly +20 HP, +6.67 Hunger, +6.67 Sanity. Max after <em>15 Gears</em>: 400 HP / 200 Hunger / 300 Sanity.</p>
+      <p>No penalty from spoiled food. Lightning triggers <strong>Overcharge</strong> — +50% speed, emits light, +100 HP, lasts a full day. <em>Takes constant damage in rain.</em></p>
+      <div class="callout callout-warn">All upgrades lost on death! Gears come from Clockwork enemies, Tumbleweeds, and Graves.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wickerbottom librarian books insomnia science">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What books can Wickerbottom craft?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wickerbottom" alt="Wickerbottom"><div class="char-portrait-fallback">📚</div></div>
+        <div class="char-name-block"><div class="char-name">Wickerbottom</div><div class="char-title">The Librarian</div></div>
+      </div>
+      <p>Widely considered the <strong>strongest character</strong>. She starts knowing all Science Machine recipes and can craft unique books:</p>
+      <table class="data-table">
+        <tr><th>Book</th><th>Effect</th><th>Sanity Cost</th></tr>
+        <tr><td><strong>Birds of the World</strong></td><td>Summons 20–30 birds</td><td>-50</td></tr>
+        <tr><td><strong>Applied Horticulture</strong></td><td>All nearby plants advance a stage</td><td>-33</td></tr>
+        <tr><td><strong>Sleepytime Stories</strong></td><td>Puts nearby mobs to sleep</td><td>-33</td></tr>
+        <tr><td><strong>The End is Nigh!</strong></td><td>16 Lightning strikes nearby</td><td>-33</td></tr>
+        <tr><td><strong>On Tentacles</strong></td><td>Summons 3 Tentacles</td><td>-50</td></tr>
+      </table>
+      <p>5 uses per book. Cannot sleep. Takes extra penalties from stale/spoiled food.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters woodie lucy axe werebeaver lumberjack moon">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does the Werebeaver curse work?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Woodie" alt="Woodie"><div class="char-portrait-fallback">🪓</div></div>
+        <div class="char-name-block"><div class="char-name">Woodie</div><div class="char-title">The Lumberjack</div></div>
+      </div>
+      <p>Woodie starts with <strong>Lucy the Axe</strong> — infinite durability, fast chopping, half weapon damage. If he chops too many trees quickly or during a <em>full moon</em>, he transforms into a <strong>Werebeaver</strong>.</p>
+      <p>As Werebeaver: stats are replaced by a single Beaverness meter. He gnaws through trees, rocks, and structures rapidly but can't access inventory, map, or crafting. Reverts at low Beaverness, leaving him at <strong>50 HP, 37 Hunger, 50 Sanity</strong>.</p>
+      <p>Key advantage: <em>immune to freezing</em> — a panic button for Winter survival.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wes mime challenge hard mode balloons">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Why would anyone play Wes?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wes" alt="Wes"><div class="char-portrait-fallback">🤡</div></div>
+        <div class="char-name-block"><div class="char-name">Wes</div><div class="char-title">The Mime</div></div>
+      </div>
+      <p>Wes is the <strong>challenge character</strong>. Lower HP (113), lower Hunger (113), lower Sanity (150), <em>0.75× damage</em>, starves <em>1.25× faster</em>, can't talk. His only ability: blowing Balloons (5 Sanity each) that pop for 5 AoE damage.</p>
+      <div class="callout callout-info">Unlocked by finding him trapped in Adventure Mode. Survive 100+ days as Wes = true mastery.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters maxwell shadow puppets sanity health codex">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How do Maxwell's Shadow Puppets work?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Maxwell" alt="Maxwell"><div class="char-portrait-fallback">🎩</div></div>
+        <div class="char-name-block"><div class="char-name">Maxwell</div><div class="char-title">The Puppet Master</div></div>
+      </div>
+      <p>Only <em>75 HP</em> but regenerates Sanity at <strong>+20/min</strong> passively. Starts with Dark Sword, Night Armor, and the <strong>Codex Umbra</strong>.</p>
+      <p>Codex summons <strong>Shadow Puppets</strong> (costs 15 HP + 2 Nightmare Fuel + 55 max Sanity each). Puppets chop, mine, or dig automatically for ~2.5 days. Max 3 active, but that reduces usable Sanity to only 35.</p>
+      <div class="callout callout-warn">75 HP = extremely fragile. Two hits from most bosses kill him. Keep Night Armor equipped always.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters wigfrid valkyrie combat meat only spear helmet">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What's Wigfrid's meat-only restriction?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Wigfrid" alt="Wigfrid"><div class="char-portrait-fallback">⚔️</div></div>
+        <div class="char-name-block"><div class="char-name">Wigfrid</div><div class="char-title">Performance Artist</div></div>
+      </div>
+      <p>A method actress stuck in her Viking role. <strong>200 HP</strong>, starts with Battle Helm (80% absorption) and Battle Spear (42.5 dmg). Regains HP and Sanity on every kill.</p>
+      <p>Restriction: <strong>only eats Meat and Meat-based Crock Pot dishes</strong>. No berries, vegetables, or fruit. Meatballs (1 meat + 3 filler) still work since they're a meat dish.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="characters webber spider monster befriend silk">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does Webber befriend Spiders?</span></div>
+    <div class="qa-a">
+      <div class="char-header">
+        <div class="char-portrait-wrap"><img class="char-portrait" data-char="Webber" alt="Webber"><div class="char-portrait-fallback">🕷️</div></div>
+        <div class="char-name-block"><div class="char-name">Webber</div><div class="char-title">The Indigestible</div></div>
+      </div>
+      <p>Webber is a boy inside the spider that tried to eat him. Counts as a Monster — <strong>Spiders are neutral</strong> and can be given meat to become followers. He can plant Spider Eggs to create new dens.</p>
+      <p>Downside: <strong>Pigs and Bunnymen attack on sight</strong>. 175 HP, 175 Hunger, only 100 Sanity.</p>
+    </div>
+  </div>
+
+  <div class="qa-group-label">Rankings & Recommendations</div>
+
+  <div class="qa-item" data-tags="characters tier list ranking best worst beginner">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Community consensus tier list?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Tier</th><th>Characters</th><th>Why</th></tr>
+        <tr><td><span class="tier tier-s">S</span></td><td><strong>Wickerbottom, WX-78, Wolfgang</strong></td><td>Game-changing abilities, scale into late game</td></tr>
+        <tr><td><span class="tier tier-a">A</span></td><td><strong>Maxwell, Wigfrid</strong></td><td>Strong specializations</td></tr>
+        <tr><td><span class="tier tier-b">B</span></td><td><strong>Webber, Woodie</strong></td><td>Solid with unique playstyles</td></tr>
+        <tr><td><span class="tier tier-c">C</span></td><td><strong>Wilson, Wendy, Willow</strong></td><td>Functional but limited unique value</td></tr>
+        <tr><td><span class="tier tier-f">F</span></td><td><strong>Wes</strong></td><td>Intentional challenge mode</td></tr>
+      </table>
+      <p><strong>Beginners:</strong> Wilson (safe), Wigfrid (combat-forgiving), or Wolfgang (powerful when fed).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SEASONS ===================== -->
+<div class="section" id="sec-seasons">
+  <div class="section-intro">
+    <div id="banner-seasons" class="section-banner-placeholder">🍂</div>
+    <div class="section-intro-text">
+      <h2>🍂 Seasons & Giants</h2>
+      <p>Full four-season year cycle. Each brings unique hazards, resource changes, and a boss monster.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">Season Overview</div>
+
+  <div class="qa-item" data-tags="seasons overview cycle year duration days order">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Full season cycle and durations?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Season</th><th>Days</th><th>Hazard</th><th>Giant</th><th>Difficulty</th></tr>
+        <tr class="season-autumn"><td><strong>Autumn</strong></td><td>20 (1–20)</td><td>None — safe</td><td>Bearger</td><td>★☆☆☆</td></tr>
+        <tr class="season-winter"><td><strong>Winter</strong></td><td>16 (21–36)</td><td>Freezing</td><td>Deerclops</td><td>★★★☆</td></tr>
+        <tr class="season-spring"><td><strong>Spring</strong></td><td>20 (37–56)</td><td>Rain & Wetness</td><td>Moose/Goose</td><td>★★☆☆</td></tr>
+        <tr class="season-summer"><td><strong>Summer</strong></td><td>16 (57–72)</td><td>Overheating & Fire</td><td>Dragonfly</td><td>★★★★</td></tr>
+      </table>
+      <p>Full year = <strong>72 days</strong>. 50/50 chance of starting in Autumn or Spring.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons autumn safe bearger base building exploration">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What should I focus on during Autumn?</span></div>
+    <div class="qa-a">
+      <p><strong>Days 1–5:</strong> Gather 40+ Grass, 40+ Twigs, 10+ Flint. Craft Garland (12 Petals). Explore aggressively — map the coastline.</p>
+      <p><strong>Days 5–12:</strong> Build base. Science Machine → Alchemy Engine. Crock Pot, Fire Pit, Chests, Drying Racks. Start Berry Bush farm.</p>
+      <p><strong>Days 12–20:</strong> Winter prep. Thermal Stone, warm clothing, stockpile food, Lightning Rod.</p>
+      <div class="callout callout-warn">Bearger can appear in Autumn. Feed him 10 Honey and he'll hibernate. Don't fight unprepared (3000 HP).</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons winter freezing cold thermal deerclops clothing">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How do I survive Winter?</span></div>
+    <div class="qa-a">
+      <p>Temperature drops constantly. At zero you take rapid damage. Essentials:</p>
+      <p><em>Thermal Stone</em> — Heats near fire, carries warmth. Non-negotiable.</p>
+      <p><em>Winter Hat</em> (Beefalo Wool + Silk) — Good insulation, easy to craft.</p>
+      <p><em>Beefalo Hat</em> (Beefalo Horn + 8 Wool) — Best insulation in the game.</p>
+      <p>Food sources: Rabbit Traps, Koalefants, Crock Pot cooking, Jerky. Walrus Camps activate — farm them for <em>Tam o' Shanter</em> (+6.7 Sanity/min) and <em>Walking Cane</em> (+25% speed).</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons deerclops boss winter giant destroy eye eyebrella">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">When does Deerclops spawn? How to handle it?</span></div>
+    <div class="qa-a">
+      <p>Spawns in the <strong>last 5 days of Winter</strong> (~Day 30). Warning: character says "did you hear that?" followed by louder stomping. <strong>2000 HP</strong>, 75 damage, targets structures.</p>
+      <p><strong>Key: leave your base when you hear stomping!</strong> He spawns on top of you. Lead him to Spider Forest or Swamp. To fight: Football Helmet + Log Suit, hit 2–3 times, dodge, repeat.</p>
+      <p>Drops the <em>Deerclops Eyeball</em> → crafts the <strong>Eyebrella</strong> — best item in the game (100% rain protection + insulation).</p>
+      <div class="callout callout-info">He drains Sanity in a large radius. Bring Jerky or Cooked Green Mushrooms (+15 Sanity) for the fight.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons spring rain wetness frog hostile bees moose goose">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Why is Spring so annoying?</span></div>
+    <div class="qa-a">
+      <p>Constant heavy rain → Wetness → Sanity drain + slipping + soaked items. <em>Bees hostile all season</em>, Beefalo in heat (attack on sight), Rabbit Holes close.</p>
+      <p>Gear: <strong>Eyebrella</strong> (best) or Pretty Parasol + Straw Hat. Frog Rains can happen — dozens of Frogs fall from the sky, knock items from inventory.</p>
+      <p><strong>Moose/Goose</strong> spawns near its nest (mossy area). Won't attack unless provoked. Drops Down Feather for the Luxury Fan (Summer cooling).</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons summer overheating fire combustion dragonfly ice flingomatic">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How do I keep my base from burning in Summer?</span></div>
+    <div class="qa-a">
+      <p>Deadliest season. Overheating = rapid damage. Flammable objects <em>spontaneously combust</em>.</p>
+      <p><em>Ice Flingomatic</em> — Auto-extinguishes fires in its radius. <strong>Non-negotiable.</strong> Place 1–2 to cover your base.</p>
+      <p><em>Endothermic Fire Pit</em> — Cools instead of heating.</p>
+      <p><em>Summer Frest</em> (3 Blue Gems + 15 Silk) — Best cooling clothing.</p>
+      <p>Many players <strong>spend Summer in the Caves</strong> — no overheating or combustion underground.</p>
+      <div class="callout callout-warn">Dragonfly: 2750 HP, spits lava. Drop 20 Ash nearby to pacify temporarily. Don't engage without full armor.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="seasons giants drops crafting rewards loot boss all">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What does each Giant drop?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Giant</th><th>Season</th><th>HP</th><th>Drop</th><th>Crafts Into</th></tr>
+        <tr><td><strong>Bearger</strong></td><td>Autumn</td><td>3000</td><td>Thick Fur</td><td>Hibearnation Vest, Cat Cap</td></tr>
+        <tr><td><strong>Deerclops</strong></td><td>Winter</td><td>2000</td><td>Eyeball</td><td>Eyebrella (rain + cold)</td></tr>
+        <tr><td><strong>Moose/Goose</strong></td><td>Spring</td><td>3000</td><td>Down Feather</td><td>Luxury Fan, Weather Pain</td></tr>
+        <tr><td><strong>Dragonfly</strong></td><td>Summer</td><td>2750</td><td>Scales</td><td>Scaled Furnace/Chest/Floor</td></tr>
+      </table>
+      <p><strong>Eyebrella</strong> is the highest-value Giant drop by far. Prioritize killing Deerclops.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COOKING ===================== -->
+<div class="section" id="sec-cooking">
+  <div class="section-intro">
+    <div id="banner-cooking" class="section-banner-placeholder">🍳</div>
+    <div class="section-intro-text">
+      <h2>🍳 Cooking & Crock Pot</h2>
+      <p>The Crock Pot transforms basic ingredients into powerful meals. Master it and you'll never go hungry.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">Crock Pot Basics</div>
+
+  <div class="qa-item" data-tags="cooking crock pot build basics how ingredients slots">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does the Crock Pot work?</span></div>
+    <div class="qa-a">
+      <p>Science Machine to prototype. Costs <em>3 Cut Stone + 6 Charcoal + 6 Twigs</em>. Has 4 slots — fill all 4 to cook (10–40 seconds). Checks ingredients against <strong>58 recipes</strong>. No match = Wet Goop.</p>
+      <div class="callout callout-tip">Finished dishes don't spoil in the pot until you pick them up. Free temporary storage.</div>
+    </div>
+  </div>
+
+  <div class="qa-group-label">Essential Recipes</div>
+
+  <div class="qa-item" data-tags="cooking recipes meatballs best easy cheap hunger pierogi">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Most important recipes to memorize?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Dish</th><th>Recipe</th><th>HP</th><th>Hunger</th><th>Sanity</th></tr>
+        <tr><td><strong>Meatballs</strong></td><td>1 Meat + 3 filler</td><td>+3</td><td><strong>+62.5</strong></td><td>+5</td></tr>
+        <tr><td><strong>Pierogi</strong></td><td>1 Meat + 1 Egg + 1 Veg + filler</td><td><strong>+40</strong></td><td>+37.5</td><td>+5</td></tr>
+        <tr><td><strong>Bacon & Eggs</strong></td><td>2 Meat + 2 Egg</td><td>+20</td><td><strong>+75</strong></td><td>+5</td></tr>
+        <tr><td><strong>Meaty Stew</strong></td><td>3 Meat + 1 filler</td><td>+12</td><td><strong>+150</strong></td><td>+5</td></tr>
+        <tr><td><strong>Honey Ham</strong></td><td>2 Meat + 1 Honey + filler</td><td><strong>+30</strong></td><td>+75</td><td>+5</td></tr>
+        <tr><td><strong>Dragonpie</strong></td><td>1 Dragon Fruit + 3 filler</td><td>+40</td><td>+75</td><td>+5</td></tr>
+        <tr><td><strong>Fishsticks</strong></td><td>1 Fish + 1 Twig + 2 filler</td><td><strong>+40</strong></td><td>+37.5</td><td>+5</td></tr>
+        <tr><td><strong>Taffy</strong></td><td>3 Honey + 1 filler</td><td>-3</td><td>+25</td><td><strong>+15</strong></td></tr>
+        <tr><td><strong>Jerky</strong></td><td>Drying Rack (2 days)</td><td><strong>+20</strong></td><td>+18.75</td><td><strong>+15</strong></td></tr>
+      </table>
+      <div class="callout callout-tip"><strong>Birdcage trick:</strong> Build a Birdcage, catch a bird. Feed it Cooked Monster Meat → get Eggs. Use in Pierogi or Bacon & Eggs. Converts Monster Meat into premium food.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="cooking monster meat lasagna dangerous avoid rule">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How to avoid Monster Lasagna?</span></div>
+    <div class="qa-a">
+      <p>2+ Monster Food items in the pot = <strong>Monster Lasagna</strong> (−20 HP, −20 Sanity). Never worth eating.</p>
+      <p><strong>Safe rule: max 1 Monster Meat per recipe.</strong> 1 Monster Meat + 3 Berries = Meatballs. Safe and efficient.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="cooking spoilage freshness rot preserve ice box drying rack">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How does food spoilage work?</span></div>
+    <div class="qa-a">
+      <p>All food spoils: <em>Fresh → Stale → Spoiled → Rot</em>. Stale = half hunger, −10 Sanity. Spoiled = almost nothing + damage.</p>
+      <p><em>Ice Box</em> — Slows spoilage to 50% speed. Essential.</p>
+      <p><em>Drying Rack</em> — Turns Meat into Jerky. Jerky lasts <strong>20 days</strong> and restores HP + Sanity + Hunger. Build 4+ racks early.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CRAFTING ===================== -->
+<div class="section" id="sec-crafting">
+  <div class="section-intro">
+    <div id="banner-crafting" class="section-banner-placeholder">⚒️</div>
+    <div class="section-intro-text">
+      <h2>⚒️ Crafting & Tech</h2>
+      <p>Tiered prototyping progression from basic tools to ancient magic.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">Tech Progression</div>
+
+  <div class="qa-item" data-tags="crafting prototyping science machine alchemy shadow tiers">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Crafting station progression?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Station</th><th>Cost</th><th>Key Unlocks</th></tr>
+        <tr><td><strong>Science Machine</strong></td><td>1 Gold + 4 Logs + 4 Rocks</td><td>Shovel, Crock Pot, Ice Box, Spear, Log Suit, Chest, Drying Rack</td></tr>
+        <tr><td><strong>Alchemy Engine</strong></td><td>4 Boards + 2 Cut Stone + 6 Gold</td><td>Football Helmet, Bee Box, Lightning Rod, Ice Flingomatic, Tooth Trap</td></tr>
+        <tr><td><strong>Prestihatitator</strong></td><td>4 Rabbit + 4 Boards + 1 Top Hat</td><td>Meat Effigy, Pan Flute, Life Giving Amulet, Ice Staff</td></tr>
+        <tr><td><strong>Shadow Manipulator</strong></td><td>3 Nightmare Fuel + 1 Living Log + 7 Boards</td><td>Dark Sword, Night Armor, Fire Staff, Belt of Hunger</td></tr>
+      </table>
+      <p>Prototype once → craft anywhere forever. Each prototype also gives <strong>+15 Sanity</strong>.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="crafting priority build order first early game essential">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Ideal early build order?</span></div>
+    <div class="qa-a">
+      <p><strong>Day 1:</strong> Axe → Pickaxe → Torch.</p>
+      <p><strong>Days 1–3:</strong> Backpack, Campfires each night, explore.</p>
+      <p><strong>Days 3–8:</strong> Science Machine → Fire Pit → Crock Pot → Chests × 2 → Drying Racks × 4 → Spear + Log Suit.</p>
+      <p><strong>Days 8–15:</strong> Alchemy Engine → Lightning Rod → Ice Box → Football Helmet → Berry Bush farm (20+).</p>
+      <p><strong>Days 15–20:</strong> Thermal Stone → Winter Hat → Tooth Traps → Prestihatitator.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="crafting weapons armor fight dark sword night armor ham bat log suit">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Best weapons and armor?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Item</th><th>Power</th><th>Durability</th><th>Notes</th></tr>
+        <tr><td><strong>Spear</strong></td><td><span class="stat stat-dmg">34 dmg</span></td><td>150 uses</td><td>Early game reliable</td></tr>
+        <tr><td><strong>Ham Bat</strong></td><td><span class="stat stat-dmg">29–59 dmg</span></td><td>Spoils (10d)</td><td>Freshness = damage</td></tr>
+        <tr><td><strong>Dark Sword</strong></td><td><span class="stat stat-dmg">68 dmg</span></td><td>100 uses</td><td>Best melee. −20 Sanity on craft</td></tr>
+        <tr><td><strong>Blow Dart</strong></td><td><span class="stat stat-dmg">100 dmg</span></td><td>1 use</td><td>Ranged nuke</td></tr>
+        <tr><td><strong>Log Suit</strong></td><td>80% absorb</td><td>450 HP</td><td>Cheap, always carry one</td></tr>
+        <tr><td><strong>Football Helmet</strong></td><td>80% absorb</td><td>450 HP</td><td>Head slot — stacks with body!</td></tr>
+        <tr><td><strong>Night Armor</strong></td><td>95% absorb</td><td>750 HP</td><td>−10% Sanity per hit</td></tr>
+      </table>
+      <div class="callout callout-tip"><strong>The combo:</strong> Football Helmet + Log Suit = 96% damage reduction. Night Armor + Helmet = 99%. Always wear both in combat.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CREATURES ===================== -->
+<div class="section" id="sec-creatures">
+  <div class="section-intro">
+    <div id="banner-creatures" class="section-banner-placeholder">🕷️</div>
+    <div class="section-intro-text">
+      <h2>🕷️ Creatures & Combat</h2>
+      <p>Key creatures, their behaviors, stats, drops, and how to fight or avoid them.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">Hostile Mobs</div>
+
+  <div class="qa-item" data-tags="creatures hounds attack wave timer frequency defend">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How do Hound attacks work?</span></div>
+    <div class="qa-a">
+      <p>Periodic and escalating. First attack ~<strong>Day 6–12</strong> with 2–3 Hounds. By Day 100+ you face 7–10 per wave with Fire Hounds (Summer) and Ice Hounds (Winter).</p>
+      <p>Warnings: character says phrases over 30–60 seconds before they arrive.</p>
+      <p><strong>Defense:</strong> Tooth Trap fields (best), Beefalo herds, Swamp Tentacles, or kiting with Spear + Log Suit. Fire Hounds ignite on death — fight away from flammables.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="creatures spiders den tier silk monster meat glands farm">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How to farm Spider Dens?</span></div>
+    <div class="qa-a">
+      <p><strong>Tier 1:</strong> 3 Spiders. <strong>Tier 2:</strong> 6 + Warriors. <strong>Tier 3:</strong> 9 + Warriors, eventually spawns a Spider Queen.</p>
+      <p>Drops: Monster Meat, Silk, Spider Glands.</p>
+      <p><strong>Method:</strong> Attack dens during the day. Hit the web to lure 1–2 at a time. For Tier 3, destroy with Hammer to prevent Queen spawn and get Spider Eggs.</p>
+      <div class="callout callout-tip">Plant Spider Eggs near (not in) your base for a renewable Silk/Gland/Monster Meat farm. 2–3 Tier 1 dens is ideal.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="creatures treeguard tree monster appease living log">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">A Treeguard spawned — what do I do?</span></div>
+    <div class="qa-a">
+      <p>Random chance when chopping trees. <strong>2000 HP</strong>, hostile, hits hard. But: <strong>plant 5–8 Pine Cones near it</strong> — it calms down and becomes neutral.</p>
+      <p>To fight: they're slow, kite easily. Drops <strong>6 Living Logs</strong> — needed for Shadow Manipulator and magic items.</p>
+    </div>
+  </div>
+
+  <div class="qa-group-label">Neutral & Passive</div>
+
+  <div class="qa-item" data-tags="creatures beefalo herd wool horn heat mating hostile">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">How to interact with Beefalo safely?</span></div>
+    <div class="qa-a">
+      <p>Normally neutral. Valuable for: <strong>Wool</strong> (shave sleeping ones at night), <strong>Horn</strong> (on death), <em>Manure</em> (they poop constantly).</p>
+      <p><strong>Spring danger:</strong> Mating season (red butts) — hostile to everything. Stay far away.</p>
+      <div class="callout callout-tip">Build near a herd but not on top of it. Use them as Hound defense by running through during attacks.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="creatures walrus mctusk camp winter tam cane">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What drops from MacTusk?</span></div>
+    <div class="qa-a">
+      <p>Walrus Camps (igloos) active only in <strong>Winter</strong>. MacTusk spawns every 2.5 days with 2 Blue Hounds. Uses Blow Darts (100 dmg), runs when you close distance.</p>
+      <p>Drops: <em>Tam o' Shanter</em> (25% — best Sanity hat, +6.7/min), <em>Walking Cane</em> (10% — +25% speed permanently), Blow Dart, Walrus Tusk.</p>
+      <p><strong>Strategy:</strong> Armor up, kill Hounds first, corner MacTusk against terrain.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SURVIVAL ===================== -->
+<div class="section" id="sec-survival">
+  <div class="section-intro">
+    <div id="banner-survival" class="section-banner-placeholder">❤️</div>
+    <div class="section-intro-text">
+      <h2>❤️ Survival Mechanics</h2>
+      <p>Health, Hunger, Sanity — the three pillars. Understanding their interactions is everything.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">The Three Stats</div>
+
+  <div class="qa-item" data-tags="survival health healing resurrection touchstone effigy amulet">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">All healing and resurrection methods?</span></div>
+    <div class="qa-a">
+      <p><strong>Healing:</strong> Spider Gland (+8), Healing Salve (+20), Honey Poultice (+30), Pierogi (+40), Fishsticks (+40), Jerky (+20), Butterfly Wings (+8 raw).</p>
+      <p><strong>Resurrection:</strong></p>
+      <p><em>Touchstones</em> — Pre-placed (usually 2 per map). One-time use. Respawn at 50/50/50. Items left at death location.</p>
+      <p><em>Meat Effigy</em> — Crafted (4 Boards + 4 Beard Hair + 4 Meat). Costs 30 max HP while placed.</p>
+      <p><em>Life Giving Amulet</em> — Worn. Auto-resurrects with full stats. 3 Gold + 2 Nightmare Fuel + 1 Red Gem.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="survival sanity shadow creatures nightmare insanity restore">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What happens at low Sanity?</span></div>
+    <div class="qa-a">
+      <p>Screen gets shaky. Below ~80 you see Shadow Creatures (visual only). Below <strong>15% of max</strong>, they become physical and attack: Crawling Horror (900 HP, 20 dmg), Terrorbeak (300 HP, 40 dmg).</p>
+      <p><strong>Drains from:</strong> Darkness (−50/min), nearby Monsters (−100 to −400/min), Rain, raw Monster Meat (−15), graves.</p>
+      <p><strong>Restores from:</strong> Flowers (+5), Top Hat (+3.3/min), Tam o' Shanter (+6.7/min), Jerky (+15), Taffy (+15), Tent (+60), prototyping (+15).</p>
+      <div class="callout callout-tip">Intentionally drop below 15% to farm Shadow Creatures for <strong>Nightmare Fuel</strong> — required for Magic tier 2. Equip armor, kill them, eat to recover.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="survival darkness charlie night light torch campfire">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What kills me in total darkness?</span></div>
+    <div class="qa-a">
+      <p><strong>Charlie</strong> attacks instantly in total darkness — <em>100 damage per hit</em> with brief pauses. Two hits kills most characters.</p>
+      <p><strong>Light sources:</strong> Campfire/Fire Pit, Torch (75 sec), Miner Hat (8 min, frees hands), Lantern (8 min), Willow's Lighter (infinite, dim).</p>
+      <p>Miner Hat (1 Straw Hat + 1 Gold + 1 Firefly) is the best portable light. Always carry backup Torch materials.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BIOMES ===================== -->
+<div class="section" id="sec-biomes">
+  <div class="section-intro">
+    <div id="banner-biomes" class="section-banner-placeholder">🌲</div>
+    <div class="section-intro-text">
+      <h2>🌲 Biomes & Resources</h2>
+      <p>Each biome has distinct resources, creatures, and strategic value.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">World Biomes</div>
+
+  <div class="qa-item" data-tags="biomes all types list resources creatures">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">All biomes and their unique resources?</span></div>
+    <div class="qa-a">
+      <table class="data-table">
+        <tr><th>Biome</th><th>Key Resources</th><th>Key Creatures</th><th>Danger</th></tr>
+        <tr><td><strong>Grasslands</strong></td><td>Grass, Saplings, Carrots, Flowers</td><td>Rabbits, Butterflies</td><td>Low</td></tr>
+        <tr><td><strong>Forest</strong></td><td>Trees, Mushrooms, Graves</td><td>Spiders, Pigs, Treeguards</td><td>Medium</td></tr>
+        <tr><td><strong>Savanna</strong></td><td>Dense Grass, Rabbits</td><td>Beefalo herds</td><td>Low</td></tr>
+        <tr><td><strong>Rockyland</strong></td><td>Rocks, Gold, Flint, Nitre</td><td>Tallbirds, Clockworks</td><td>Medium</td></tr>
+        <tr><td><strong>Swamp</strong></td><td>Reeds (Papyrus)</td><td>Tentacles, Merms</td><td>High</td></tr>
+        <tr><td><strong>Desert</strong></td><td>Cactus, Tumbleweeds, Gold</td><td>Hounds, Volt Goats</td><td>High</td></tr>
+        <tr><td><strong>Deciduous</strong></td><td>Birchnuts, Catcoons, Pig King</td><td>Poison Birchnut Trees</td><td>Medium</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="biomes base location where build best spot">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Best place to build a base?</span></div>
+    <div class="qa-a">
+      <p><strong>Must-haves nearby:</strong> Beefalo herd, Rockyland, Grasslands, a Pond.</p>
+      <p><strong>Nice to have:</strong> Pig Village, Swamp (Reeds), Walrus Camp.</p>
+      <p><strong>Avoid:</strong> Swamp (Tentacles wreck structures), Desert (constant Hounds), right on Beefalo (mating = destruction).</p>
+      <div class="callout callout-tip">Spend first 3–5 days just exploring. Map the coastline. Don't commit to a base location until you've seen most of the map.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="biomes caves underground ruins bunnymen mushrooms">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What's in the Caves?</span></div>
+    <div class="qa-a">
+      <p>Light Flowers, Bunnymen (neutral unless you carry meat), Mushroom Forests, Rock Lobsters, Bats, and the entrance to the <strong>Ruins</strong> (Ancient tech — Thulecite gear, strongest equipment).</p>
+      <p>Caves have <strong>no seasons</strong> — no freezing, overheating, or rain. Experienced players use them as a Summer retreat.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== STRATEGY ===================== -->
+<div class="section" id="sec-strategy">
+  <div class="section-intro">
+    <div id="banner-strategy" class="section-banner-placeholder">🧠</div>
+    <div class="section-intro-text">
+      <h2>🧠 Strategy & Tips</h2>
+      <p>Hard-won wisdom from the Constant. What separates survivors from skeletons.</p>
+    </div>
+  </div>
+  <div class="qa-group-label">Survival Strategy</div>
+
+  <div class="qa-item" data-tags="strategy first days early game beginner steps">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">I keep dying before Day 10. What do I do?</span></div>
+    <div class="qa-a">
+      <p><strong>Days 1–3: EXPLORE.</strong> Axe + Pickaxe immediately. Gather everything. Garland from 12 Petals. Torches for night travel. Map the coast.</p>
+      <p><strong>Days 3–6: SETTLE.</strong> Science Machine, Fire Pit, Crock Pot, 2 Chests. Backpack. 4 Rabbit Traps near bunny holes.</p>
+      <p><strong>Days 6–12: ESTABLISH.</strong> Alchemy Engine. 20+ Berry Bushes. 4 Drying Racks. Spear + Log Suit. Bee Box. Lightning Rod.</p>
+      <p><strong>Days 12–20: WINTER PREP.</strong> Thermal Stone. Winter Hat. Stockpile food. Locate Walrus Camp. Prestihatitator if possible.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="strategy kiting combat technique hit run dodge mobile">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What is kiting? How on mobile?</span></div>
+    <div class="qa-a">
+      <p>Attack → walk away before they hit → walk in → attack again. Most enemies have a wind-up animation.</p>
+      <p>On <strong>mobile/touch:</strong> tap red button to attack, joystick to dodge. Timing is tighter, so <em>armor is even more important</em> to absorb mistakes.</p>
+      <div class="callout callout-warn">On iPhone, the small screen makes kiting harder. If a fight feels risky, don't engage. Most enemies lose interest if you run far enough.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="strategy common mistakes death reasons why avoid">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Most common ways players die?</span></div>
+    <div class="qa-a">
+      <p><strong>1. Darkness.</strong> No fire or torch. Always carry materials (2 Grass + 2 Twigs).</p>
+      <p><strong>2. Hound attacks unprepared.</strong> No armor, no traps. Wear armor when you hear warnings.</p>
+      <p><strong>3. First Winter with no prep.</strong> No Thermal Stone, no clothing, no food. Prep by Day 12.</p>
+      <p><strong>4. Deerclops at your base.</strong> Leave when you hear stomping. Lead him elsewhere.</p>
+      <p><strong>5. Picking unwinnable fights.</strong> Know enemy stats before engaging.</p>
+      <p><strong>6. Sanity spiraling.</strong> Keep a hat equipped, eat Jerky, pick Flowers.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="strategy adventure mode maxwell door chapters">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">What's Adventure Mode?</span></div>
+    <div class="qa-a">
+      <p>Find <strong>Maxwell's Door</strong> (random spawn in Sandbox). Walk through = 5-chapter campaign with unique rules per chapter. You <strong>lose all inventory</strong> upon entering. Keep 4 items between chapters.</p>
+      <p>Completing all 5 unlocks Maxwell. Chapter 4 "Darkness" is hardest (almost permanent night). Chapter 5 is a finale with no combat.</p>
+      <p><strong>Best items to carry forward:</strong> Walking Cane, Tam o' Shanter, Dark Sword, Backpack.</p>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="strategy pocket edition mobile ios controls tips">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">Tips specific to iOS Pocket Edition?</span></div>
+    <div class="qa-a">
+      <p><strong>Controls:</strong> Red = attack. Green = interact. Orange = cycle action. Optional joystick. Tap objects to target.</p>
+      <p><strong>Performance:</strong> Runs well on iPhone 8+. Save frequently — autosave at dawn but crashes happen.</p>
+      <p>Includes full RoG content (4 seasons, Wigfrid, Webber, Giants). Apple Arcade version = same content, no ads.</p>
+      <div class="callout callout-info">Wall placement is terrible on touchscreen. Use Tooth Traps instead — easier to place and more effective.</div>
+    </div>
+  </div>
+
+  <div class="qa-item" data-tags="strategy long run 100 days endgame late goals">
+    <div class="qa-q"><span class="marker">›</span><span class="q-text">I survived 100 days. What now?</span></div>
+    <div class="qa-a">
+      <p><strong>Ruins diving</strong> — Caves → Ruins for Ancient tech. Thulecite Crown (90% absorb + sanity aura) and Lazy Explorer (teleport).</p>
+      <p><strong>Adventure Mode</strong> — Beat all 5 chapters, unlock Maxwell.</p>
+      <p><strong>Kill all Giants</strong> — Collect all unique drops.</p>
+      <p><strong>Mega base</strong> — Build everything, organize farms, roads (Cobblestones = speed).</p>
+      <p><strong>Wes run</strong> — Survive 100 days as Wes. The ultimate challenge.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Don't Starve: Pocket Edition — Unofficial Survival Compendium<br>
+  Not affiliated with Klei Entertainment · Art sourced from the Don't Starve Wiki (CC-BY-SA)<br>
+  "Say pal, you don't look so good."
+</div>
+
+<script>
+// ===================== WIKI ART LOADER =====================
+// img tags follow wiki redirects without CORS issues — no fetch() needed
+const BASE = 'https://dontstarve.fandom.com/wiki/Special:FilePath/';
+
+const CHAR_FILES = {
+  'Wilson':       'Wilson_Portrait.png',
+  'Willow':       'Willow_Portrait.png',
+  'Wolfgang':     'Wolfgang_Portrait.png',
+  'Wendy':        'Wendy_Portrait.png',
+  'WX-78':        'WX-78_Portrait.png',
+  'Wickerbottom': 'Wickerbottom_Portrait.png',
+  'Woodie':       'Woodie_Portrait.png',
+  'Wes':          'Wes_Portrait.png',
+  'Maxwell':      'Maxwell_Portrait.png',
+  'Wigfrid':      'Wigfrid_Portrait.png',
+  'Webber':       'Webber_Portrait.png',
+};
+
+function wikiImg(filename) {
+  return BASE + encodeURIComponent(filename);
+}
+
+function applyPortraits() {
+  // Large portraits in character entries
+  document.querySelectorAll('.char-portrait[data-char]').forEach(img => {
+    const file = CHAR_FILES[img.dataset.char];
+    if (!file) return;
+    img.src = wikiImg(file);
+    img.onload = () => img.classList.add('loaded');
+    img.onerror = () => { img.style.display = 'none'; };
+  });
+
+  // Small icons in the stats table
+  document.querySelectorAll('.char-table-icon[data-char]').forEach(img => {
+    const file = CHAR_FILES[img.dataset.char];
+    if (!file) { img.remove(); return; }
+    img.src = wikiImg(file);
+    img.onerror = () => img.remove();
+  });
+
+  // Header background
+  const headerBg = document.getElementById('headerBgArt');
+  if (headerBg) {
+    const tmp = new Image();
+    tmp.onload = () => {
+      headerBg.style.backgroundImage = `url(${tmp.src})`;
+      headerBg.classList.add('loaded');
+    };
+    tmp.src = wikiImg('Wilson_Portrait.png');
+  }
+}
+
+applyPortraits();
+
+// ===================== NAV + SEARCH =====================
+const catBtns = document.querySelectorAll('.cat-btn');
+const sections = document.querySelectorAll('.section');
+
+catBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const cat = btn.dataset.cat;
+    catBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    sections.forEach(s => s.classList.remove('active'));
+    document.getElementById('sec-' + cat).classList.add('active');
+    document.getElementById('searchInput').value = '';
+    document.getElementById('resultCount').textContent = '';
+    document.querySelectorAll('.qa-item').forEach(i => { i.style.display = ''; i.classList.remove('open'); });
+    document.querySelectorAll('.qa-group-label').forEach(l => l.style.display = '');
+    window.scrollTo(0, 0);
+  });
+});
+
+document.addEventListener('click', e => {
+  const q = e.target.closest('.qa-q');
+  if (!q) return;
+  q.closest('.qa-item').classList.toggle('open');
+});
+
+const si = document.getElementById('searchInput');
+const rc = document.getElementById('resultCount');
+si.addEventListener('input', () => {
+  const q = si.value.toLowerCase().trim();
+  if (!q) {
+    sections.forEach(s => s.classList.remove('active'));
+    const ac = document.querySelector('.cat-btn.active').dataset.cat;
+    document.getElementById('sec-' + ac).classList.add('active');
+    document.querySelectorAll('.qa-item').forEach(i => i.style.display = '');
+    document.querySelectorAll('.qa-group-label').forEach(l => l.style.display = '');
+    rc.textContent = '';
+    return;
+  }
+  sections.forEach(s => s.classList.add('active'));
+  let c = 0;
+  document.querySelectorAll('.qa-item').forEach(item => {
+    const t = (item.dataset.tags || '').toLowerCase();
+    const qt = item.querySelector('.q-text').textContent.toLowerCase();
+    const at = item.querySelector('.qa-a').textContent.toLowerCase();
+    const m = t.includes(q) || qt.includes(q) || at.includes(q);
+    item.style.display = m ? '' : 'none';
+    if (m) c++;
+  });
+  document.querySelectorAll('.qa-group-label').forEach(l => {
+    let n = l.nextElementSibling, v = false;
+    while (n && !n.classList.contains('qa-group-label') && !n.classList.contains('section-intro')) {
+      if (n.classList.contains('qa-item') && n.style.display !== 'none') v = true;
+      n = n.nextElementSibling;
+    }
+    l.style.display = v ? '' : 'none';
+  });
+  rc.textContent = c + ' result' + (c !== 1 ? 's' : '') + ' found';
+});
+</script>
+</body>
+</html>
